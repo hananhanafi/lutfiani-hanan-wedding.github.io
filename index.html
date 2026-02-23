@@ -10,13 +10,19 @@
       theme: {
         extend: {
           colors: {
-            blush: '#f9e4e4',
-            rose: '#c06c84',
-            dusty: '#a8648b',
+            blush: '#fce4ec',
+            rose: '#e57373',
+            dusty: '#d4869c',
             sage: '#6b9080',
+            leaf: '#4a7c59',
+            moss: '#3d6b4e',
+            garden: '#2d5a3f',
+            petal: '#f8bbd0',
             champagne: '#f5e6cc',
-            ivory: '#fdf8f0',
-            gold: '#b8860b',
+            ivory: '#f5f9f0',
+            cream: '#fefdf5',
+            gold: '#c5a55a',
+            lavender: '#c5b3d1',
           },
           fontFamily: {
             serif: ['"Playfair Display"', 'Georgia', 'serif'],
@@ -48,9 +54,9 @@
 
     /* Countdown card glow */
     .countdown-card {
-      background: rgba(255,255,255,0.15);
-      backdrop-filter: blur(12px);
-      border: 1px solid rgba(255,255,255,0.25);
+      background: rgba(255,255,255,0.18);
+      backdrop-filter: blur(14px);
+      border: 1px solid rgba(255,255,255,0.3);
     }
 
     /* Timeline vertical line */
@@ -60,7 +66,7 @@
       top: 0;
       bottom: 0;
       width: 2px;
-      background: linear-gradient(to bottom, #c06c84, #a8648b);
+      background: linear-gradient(to bottom, #6b9080, #4a7c59, #d4869c);
       transform: translateX(-50%);
     }
     @media (max-width: 767px) {
@@ -88,21 +94,56 @@
     }
     .heart-beat { animation: heart-beat 2.4s ease-in-out infinite; }
 
-    /* Soft floating particles */
-    @keyframes float-up {
-      0%   { transform: translateY(0) scale(1); opacity: 0.7; }
-      100% { transform: translateY(-100vh) scale(0.3); opacity: 0; }
+    /* Floating petals */
+    @keyframes petal-fall {
+      0%   { transform: translateY(-10px) rotate(0deg) translateX(0); opacity: 0; }
+      10%  { opacity: 0.8; }
+      90%  { opacity: 0.6; }
+      100% { transform: translateY(100vh) rotate(360deg) translateX(80px); opacity: 0; }
     }
-    .particle {
+    @keyframes petal-fall-alt {
+      0%   { transform: translateY(-10px) rotate(0deg) translateX(0); opacity: 0; }
+      10%  { opacity: 0.7; }
+      90%  { opacity: 0.5; }
+      100% { transform: translateY(100vh) rotate(-270deg) translateX(-60px); opacity: 0; }
+    }
+    .petal {
       position: absolute;
-      bottom: -10px;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.35);
-      animation: float-up linear infinite;
+      top: -20px;
+      pointer-events: none;
+    }
+    .petal svg { filter: drop-shadow(0 2px 4px rgba(0,0,0,0.08)); }
+    .petal:nth-child(odd) { animation: petal-fall linear infinite; }
+    .petal:nth-child(even) { animation: petal-fall-alt linear infinite; }
+
+    /* Leaf sway */
+    @keyframes gentle-sway {
+      0%, 100% { transform: rotate(-3deg); }
+      50% { transform: rotate(3deg); }
+    }
+    .sway { animation: gentle-sway 4s ease-in-out infinite; }
+    .sway-reverse { animation: gentle-sway 5s ease-in-out infinite reverse; }
+
+    /* Section floral corners */
+    .floral-corner-tl, .floral-corner-tr, .floral-corner-bl, .floral-corner-br {
+      position: absolute;
+      width: 120px;
+      height: 120px;
+      opacity: 0.12;
+      pointer-events: none;
+    }
+    .floral-corner-tl { top: 0; left: 0; }
+    .floral-corner-tr { top: 0; right: 0; transform: scaleX(-1); }
+    .floral-corner-bl { bottom: 0; left: 0; transform: scaleY(-1); }
+    .floral-corner-br { bottom: 0; right: 0; transform: scale(-1); }
+
+    @media (min-width: 768px) {
+      .floral-corner-tl, .floral-corner-tr, .floral-corner-bl, .floral-corner-br {
+        width: 200px; height: 200px; opacity: 0.1;
+      }
     }
   </style>
 </head>
-
 <body class="bg-ivory text-gray-800 antialiased">
 
   <!-- ═══════════════════════════════════════════════════
@@ -124,7 +165,7 @@
       </button>
     </div>
     <!-- Mobile menu -->
-    <div id="mobileMenu" class="hidden md:hidden bg-dusty/95 backdrop-blur px-6 pb-6">
+    <div id="mobileMenu" class="hidden md:hidden bg-garden/95 backdrop-blur px-6 pb-6">
       <ul class="flex flex-col gap-4 text-sm tracking-widest uppercase text-white/90 pt-2">
         <li><a href="#story" class="block py-1">Our Story</a></li>
         <li><a href="#schedule" class="block py-1">Schedule</a></li>
@@ -138,13 +179,52 @@
        HERO SECTION
   ════════════════════════════════════════════════════ -->
   <section id="hero" class="relative min-h-screen flex items-center justify-center overflow-hidden">
-    <!-- Background -->
-    <div class="absolute inset-0 bg-gradient-to-br from-[#6b2d5b] via-[#8b3a62] to-[#c06c84]"></div>
-    <!-- Overlay pattern -->
-    <div class="absolute inset-0 opacity-10"
-         style="background-image: url('data:image/svg+xml,<svg width=&quot;60&quot; height=&quot;60&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot;><circle cx=&quot;30&quot; cy=&quot;30&quot; r=&quot;1.5&quot; fill=&quot;white&quot;/></svg>');"></div>
-    <!-- Floating particles container -->
-    <div id="particles" class="absolute inset-0 pointer-events-none"></div>
+    <!-- Background — lush garden gradient -->
+    <div class="absolute inset-0 bg-gradient-to-br from-[#1a3a2a] via-[#2d5a3f] to-[#4a7c59]"></div>
+    <!-- Subtle botanical pattern overlay -->
+    <div class="absolute inset-0 opacity-[0.06]"
+         style="background-image: url('data:image/svg+xml,<svg width=&quot;80&quot; height=&quot;80&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot;><path d=&quot;M40 10 C40 10 50 25 40 40 C30 25 40 10 40 10Z&quot; fill=&quot;white&quot; opacity=&quot;0.6&quot;/><path d=&quot;M20 50 C20 50 30 65 20 75 C10 65 20 50 20 50Z&quot; fill=&quot;white&quot; opacity=&quot;0.4&quot;/><path d=&quot;M60 55 C60 55 70 68 60 78 C50 68 60 55 60 55Z&quot; fill=&quot;white&quot; opacity=&quot;0.3&quot;/></svg>');"></div>
+
+    <!-- Floral corner decorations -->
+    <div class="absolute top-0 left-0 w-40 h-40 sm:w-64 sm:h-64 pointer-events-none opacity-20">
+      <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" class="sway">
+        <path d="M10 190 C10 190 30 120 80 80 C50 110 20 100 10 190Z" fill="#f8bbd0" opacity="0.6"/>
+        <path d="M10 190 C10 190 60 140 120 120 C80 140 40 150 10 190Z" fill="#a5d6a7" opacity="0.5"/>
+        <path d="M10 190 C10 190 20 130 50 100 C30 120 15 140 10 190Z" fill="#c5e1a5" opacity="0.4"/>
+        <circle cx="75" cy="85" r="8" fill="#f8bbd0" opacity="0.7"/>
+        <circle cx="55" cy="105" r="5" fill="#fff" opacity="0.5"/>
+        <circle cx="95" cy="100" r="6" fill="#e1bee7" opacity="0.5"/>
+        <path d="M70 80 C70 65 85 65 85 80 C85 65 100 65 100 80 C100 100 85 110 85 110 C85 110 70 100 70 80Z" fill="#f48fb1" opacity="0.6"/>
+        <path d="M40 120 C40 110 50 110 50 120 C50 110 60 110 60 120 C60 132 50 140 50 140 C50 140 40 132 40 120Z" fill="#f8bbd0" opacity="0.5"/>
+      </svg>
+    </div>
+    <div class="absolute top-0 right-0 w-40 h-40 sm:w-64 sm:h-64 pointer-events-none opacity-20 -scale-x-100">
+      <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" class="sway-reverse">
+        <path d="M10 190 C10 190 30 120 80 80 C50 110 20 100 10 190Z" fill="#f8bbd0" opacity="0.6"/>
+        <path d="M10 190 C10 190 60 140 120 120 C80 140 40 150 10 190Z" fill="#a5d6a7" opacity="0.5"/>
+        <path d="M10 190 C10 190 20 130 50 100 C30 120 15 140 10 190Z" fill="#c5e1a5" opacity="0.4"/>
+        <circle cx="75" cy="85" r="8" fill="#f8bbd0" opacity="0.7"/>
+        <circle cx="55" cy="105" r="5" fill="#fff" opacity="0.5"/>
+        <path d="M70 80 C70 65 85 65 85 80 C85 65 100 65 100 80 C100 100 85 110 85 110 C85 110 70 100 70 80Z" fill="#f48fb1" opacity="0.6"/>
+      </svg>
+    </div>
+    <div class="absolute bottom-0 left-0 w-40 h-40 sm:w-56 sm:h-56 pointer-events-none opacity-15 rotate-180">
+      <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" class="sway">
+        <path d="M10 190 C10 190 40 130 90 90 C60 120 25 110 10 190Z" fill="#a5d6a7" opacity="0.6"/>
+        <path d="M10 190 C10 190 50 150 100 140 C70 150 30 160 10 190Z" fill="#c5e1a5" opacity="0.4"/>
+        <circle cx="80" cy="95" r="6" fill="#f8bbd0" opacity="0.6"/>
+      </svg>
+    </div>
+    <div class="absolute bottom-0 right-0 w-40 h-40 sm:w-56 sm:h-56 pointer-events-none opacity-15 -scale-x-100 rotate-180">
+      <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" class="sway-reverse">
+        <path d="M10 190 C10 190 40 130 90 90 C60 120 25 110 10 190Z" fill="#a5d6a7" opacity="0.6"/>
+        <path d="M10 190 C10 190 50 150 100 140 C70 150 30 160 10 190Z" fill="#f8bbd0" opacity="0.5"/>
+        <circle cx="80" cy="95" r="6" fill="#e1bee7" opacity="0.6"/>
+      </svg>
+    </div>
+
+    <!-- Falling petals container -->
+    <div id="particles" class="absolute inset-0 pointer-events-none overflow-hidden"></div>
 
     <div class="relative z-10 text-center px-6 max-w-3xl">
       <!-- Small intro -->
@@ -155,8 +235,10 @@
         Lutfiani <span class="font-light italic text-champagne">&amp;</span> Hanan
       </h1>
 
-      <!-- Heart -->
-      <div class="my-6 text-rose heart-beat text-3xl select-none" aria-hidden="true">♥</div>
+      <!-- Flower icon -->
+      <div class="my-6 heart-beat text-3xl select-none" aria-hidden="true">
+        <svg class="w-10 h-10 mx-auto text-petal" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C12 2 14.5 5.5 14.5 8.5C14.5 9.8 13.9 11 12 11C10.1 11 9.5 9.8 9.5 8.5C9.5 5.5 12 2 12 2ZM4.5 9C4.5 9 8.5 9.5 10.5 11.5C11.5 12.5 11.5 13.8 10.2 14.8C8.8 15.8 7.5 15.2 6.8 14.2C5.2 12.2 4.5 9 4.5 9ZM19.5 9C19.5 9 18.8 12.2 17.2 14.2C16.5 15.2 15.2 15.8 13.8 14.8C12.5 13.8 12.5 12.5 13.5 11.5C15.5 9.5 19.5 9 19.5 9ZM7 18.5C7 18.5 9.5 15.5 12 14.5C14.5 15.5 17 18.5 17 18.5C17 18.5 15 20 12 20C9 20 7 18.5 7 18.5Z"/></svg>
+      </div>
 
       <!-- Date -->
       <p class="text-white/90 text-lg sm:text-xl font-light tracking-wide">
@@ -195,14 +277,22 @@
   <!-- ═══════════════════════════════════════════════════
        OUR STORY SECTION
   ════════════════════════════════════════════════════ -->
-  <section id="story" class="py-24 px-6">
+  <section id="story" class="py-24 px-6 relative overflow-hidden">
+    <!-- Subtle leaf bg -->
+    <div class="absolute top-10 right-0 opacity-[0.06] pointer-events-none">
+      <svg class="w-60 h-60 sway" viewBox="0 0 100 100" fill="#4a7c59"><path d="M80 10 C80 10 60 40 30 60 C50 50 70 45 80 10Z"/><path d="M75 15 C65 15 55 35 40 50" stroke="#4a7c59" stroke-width="0.8" fill="none"/></svg>
+    </div>
+    <div class="absolute bottom-10 left-0 opacity-[0.06] pointer-events-none">
+      <svg class="w-48 h-48 sway-reverse" viewBox="0 0 100 100" fill="#4a7c59"><path d="M20 90 C20 90 40 60 70 40 C50 50 30 55 20 90Z"/></svg>
+    </div>
     <div class="max-w-3xl mx-auto text-center reveal">
-      <p class="text-rose tracking-[0.3em] uppercase text-xs mb-3">Our Story</p>
+      <p class="text-sage tracking-[0.3em] uppercase text-xs mb-3">Our Story</p>
       <h2 class="font-serif text-4xl sm:text-5xl text-gray-800 mb-2">How It All Began</h2>
+      <!-- Flower divider -->
       <div class="flex items-center justify-center my-6">
-        <span class="block w-16 h-px bg-rose/40"></span>
-        <span class="mx-4 text-rose text-lg">♥</span>
-        <span class="block w-16 h-px bg-rose/40"></span>
+        <span class="block w-12 h-px bg-sage/40"></span>
+        <svg class="mx-3 w-6 h-6 text-rose" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C12 2 14.5 5.5 14.5 8.5C14.5 9.8 13.9 11 12 11C10.1 11 9.5 9.8 9.5 8.5C9.5 5.5 12 2 12 2ZM4.5 9C4.5 9 8.5 9.5 10.5 11.5C11.5 12.5 11.5 13.8 10.2 14.8C8.8 15.8 7.5 15.2 6.8 14.2C5.2 12.2 4.5 9 4.5 9ZM19.5 9C19.5 9 18.8 12.2 17.2 14.2C16.5 15.2 15.2 15.8 13.8 14.8C12.5 13.8 12.5 12.5 13.5 11.5C15.5 9.5 19.5 9 19.5 9ZM7 18.5C7 18.5 9.5 15.5 12 14.5C14.5 15.5 17 18.5 17 18.5C17 18.5 15 20 12 20C9 20 7 18.5 7 18.5Z"/></svg>
+        <span class="block w-12 h-px bg-sage/40"></span>
       </div>
       <p class="text-gray-600 leading-relaxed max-w-2xl mx-auto font-light text-lg">
         What started as a chance meeting at a cozy coffee shop in San Francisco turned into
@@ -220,15 +310,22 @@
   <!-- ═══════════════════════════════════════════════════
        WEDDING SCHEDULE / TIMELINE
   ════════════════════════════════════════════════════ -->
-  <section id="schedule" class="py-24 px-6 bg-gradient-to-b from-blush/30 to-ivory">
+  <section id="schedule" class="py-24 px-6 bg-gradient-to-b from-[#e8f5e9]/40 via-ivory to-[#fce4ec]/20 relative overflow-hidden">
+    <!-- Decorative leaves -->
+    <div class="absolute top-0 left-0 opacity-[0.05] pointer-events-none">
+      <svg class="w-72 h-72" viewBox="0 0 200 200" fill="#2d5a3f"><path d="M0 0 C0 0 60 30 80 100 C60 70 20 50 0 0Z"/><path d="M10 0 C10 0 80 50 100 130 C70 90 30 60 10 0Z" opacity="0.6"/></svg>
+    </div>
+    <div class="absolute bottom-0 right-0 opacity-[0.05] pointer-events-none">
+      <svg class="w-72 h-72" viewBox="0 0 200 200" fill="#2d5a3f"><path d="M200 200 C200 200 140 170 120 100 C140 130 180 150 200 200Z"/><path d="M190 200 C190 200 120 150 100 70 C130 110 170 140 190 200Z" opacity="0.6"/></svg>
+    </div>
     <div class="max-w-4xl mx-auto">
       <div class="text-center mb-16 reveal">
-        <p class="text-rose tracking-[0.3em] uppercase text-xs mb-3">The Big Day</p>
+        <p class="text-sage tracking-[0.3em] uppercase text-xs mb-3">The Big Day</p>
         <h2 class="font-serif text-4xl sm:text-5xl text-gray-800">Wedding Schedule</h2>
         <div class="flex items-center justify-center my-6">
-          <span class="block w-16 h-px bg-rose/40"></span>
-          <span class="mx-4 text-rose text-lg">♥</span>
-          <span class="block w-16 h-px bg-rose/40"></span>
+          <span class="block w-12 h-px bg-sage/40"></span>
+          <svg class="mx-3 w-6 h-6 text-rose" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C12 2 14.5 5.5 14.5 8.5C14.5 9.8 13.9 11 12 11C10.1 11 9.5 9.8 9.5 8.5C9.5 5.5 12 2 12 2ZM4.5 9C4.5 9 8.5 9.5 10.5 11.5C11.5 12.5 11.5 13.8 10.2 14.8C8.8 15.8 7.5 15.2 6.8 14.2C5.2 12.2 4.5 9 4.5 9ZM19.5 9C19.5 9 18.8 12.2 17.2 14.2C16.5 15.2 15.2 15.8 13.8 14.8C12.5 13.8 12.5 12.5 13.5 11.5C15.5 9.5 19.5 9 19.5 9ZM7 18.5C7 18.5 9.5 15.5 12 14.5C14.5 15.5 17 18.5 17 18.5C17 18.5 15 20 12 20C9 20 7 18.5 7 18.5Z"/></svg>
+          <span class="block w-12 h-px bg-sage/40"></span>
         </div>
       </div>
 
@@ -239,11 +336,11 @@
         <!-- Event 1 -->
         <div class="reveal relative flex flex-col md:flex-row items-start md:items-center mb-14">
           <div class="md:w-1/2 md:text-right md:pr-12 pl-12 md:pl-0">
-            <span class="text-rose font-serif text-xl">3:30 PM</span>
+            <span class="text-sage font-serif text-xl">3:30 PM</span>
             <h3 class="font-serif text-2xl text-gray-800 mt-1">Guest Arrival</h3>
             <p class="text-gray-500 font-light mt-2">Welcome drinks and light refreshments in the garden courtyard as you take in the estate's beauty.</p>
           </div>
-          <div class="absolute left-0 md:left-1/2 md:-translate-x-1/2 w-10 h-10 rounded-full bg-rose flex items-center justify-center text-white text-sm shadow-lg shadow-rose/25 z-10">
+          <div class="absolute left-0 md:left-1/2 md:-translate-x-1/2 w-10 h-10 rounded-full bg-sage flex items-center justify-center text-white text-sm shadow-lg shadow-sage/25 z-10">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0"/></svg>
           </div>
           <div class="md:w-1/2 md:pl-12"></div>
@@ -252,11 +349,11 @@
         <!-- Event 2 -->
         <div class="reveal relative flex flex-col md:flex-row items-start md:items-center mb-14">
           <div class="md:w-1/2 md:pr-12"></div>
-          <div class="absolute left-0 md:left-1/2 md:-translate-x-1/2 w-10 h-10 rounded-full bg-dusty flex items-center justify-center text-white text-sm shadow-lg shadow-dusty/25 z-10">
+          <div class="absolute left-0 md:left-1/2 md:-translate-x-1/2 w-10 h-10 rounded-full bg-rose flex items-center justify-center text-white text-sm shadow-lg shadow-rose/25 z-10">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"/></svg>
           </div>
           <div class="md:w-1/2 md:pl-12 pl-12">
-            <span class="text-dusty font-serif text-xl">4:00 PM</span>
+            <span class="text-rose font-serif text-xl">4:00 PM</span>
             <h3 class="font-serif text-2xl text-gray-800 mt-1">The Ceremony</h3>
             <p class="text-gray-500 font-light mt-2">Exchange of vows beneath the oak tree canopy, officiated by our dear friend, Reverend Michaels.</p>
           </div>
@@ -265,11 +362,11 @@
         <!-- Event 3 -->
         <div class="reveal relative flex flex-col md:flex-row items-start md:items-center mb-14">
           <div class="md:w-1/2 md:text-right md:pr-12 pl-12 md:pl-0">
-            <span class="text-rose font-serif text-xl">5:00 PM</span>
+            <span class="text-leaf font-serif text-xl">5:00 PM</span>
             <h3 class="font-serif text-2xl text-gray-800 mt-1">Cocktail Hour</h3>
             <p class="text-gray-500 font-light mt-2">Craft cocktails, canapés, and lawn games on the terrace while we steal away for golden-hour photos.</p>
           </div>
-          <div class="absolute left-0 md:left-1/2 md:-translate-x-1/2 w-10 h-10 rounded-full bg-sage flex items-center justify-center text-white text-sm shadow-lg shadow-sage/25 z-10">
+          <div class="absolute left-0 md:left-1/2 md:-translate-x-1/2 w-10 h-10 rounded-full bg-leaf flex items-center justify-center text-white text-sm shadow-lg shadow-leaf/25 z-10">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09Z"/></svg>
           </div>
           <div class="md:w-1/2 md:pl-12"></div>
@@ -278,11 +375,11 @@
         <!-- Event 4 -->
         <div class="reveal relative flex flex-col md:flex-row items-start md:items-center mb-14">
           <div class="md:w-1/2 md:pr-12"></div>
-          <div class="absolute left-0 md:left-1/2 md:-translate-x-1/2 w-10 h-10 rounded-full bg-gold flex items-center justify-center text-white text-sm shadow-lg shadow-gold/25 z-10">
+          <div class="absolute left-0 md:left-1/2 md:-translate-x-1/2 w-10 h-10 rounded-full bg-dusty flex items-center justify-center text-white text-sm shadow-lg shadow-dusty/25 z-10">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" d="M12 8.25v-1.5m0 1.5c-1.355 0-2.697.056-4.024.166C6.845 8.51 6 9.473 6 10.608v2.513m6-4.871c1.355 0 2.697.056 4.024.166C17.155 8.51 18 9.473 18 10.608v2.513M15 8.25v-1.5m-6 1.5v-1.5m12 9.75-1.5.75a3.354 3.354 0 0 1-3 0 3.354 3.354 0 0 0-3 0 3.354 3.354 0 0 1-3 0 3.354 3.354 0 0 0-3 0 3.354 3.354 0 0 1-3 0L3 16.5m18-4.5-1.5.75a3.354 3.354 0 0 1-3 0 3.354 3.354 0 0 0-3 0 3.354 3.354 0 0 1-3 0 3.354 3.354 0 0 0-3 0 3.354 3.354 0 0 1-3 0L3 12"/></svg>
           </div>
           <div class="md:w-1/2 md:pl-12 pl-12">
-            <span class="text-gold font-serif text-xl">6:30 PM</span>
+            <span class="text-dusty font-serif text-xl">6:30 PM</span>
             <h3 class="font-serif text-2xl text-gray-800 mt-1">Dinner &amp; Toasts</h3>
             <p class="text-gray-500 font-light mt-2">A farm-to-table three-course dinner paired with local wines, followed by heartfelt toasts from loved ones.</p>
           </div>
@@ -291,11 +388,11 @@
         <!-- Event 5 -->
         <div class="reveal relative flex flex-col md:flex-row items-start md:items-center">
           <div class="md:w-1/2 md:text-right md:pr-12 pl-12 md:pl-0">
-            <span class="text-rose font-serif text-xl">8:30 PM</span>
+            <span class="text-sage font-serif text-xl">8:30 PM</span>
             <h3 class="font-serif text-2xl text-gray-800 mt-1">Dancing &amp; Celebration</h3>
             <p class="text-gray-500 font-light mt-2">First dance under the stars, followed by a night of music, dancing, and memories that will last a lifetime.</p>
           </div>
-          <div class="absolute left-0 md:left-1/2 md:-translate-x-1/2 w-10 h-10 rounded-full bg-rose flex items-center justify-center text-white text-sm shadow-lg shadow-rose/25 z-10">
+          <div class="absolute left-0 md:left-1/2 md:-translate-x-1/2 w-10 h-10 rounded-full bg-sage flex items-center justify-center text-white text-sm shadow-lg shadow-sage/25 z-10">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" d="m9 9 10.5-3m0 6.553v3.75a2.25 2.25 0 0 1-1.632 2.163l-1.32.377a1.803 1.803 0 0 1-2.296-1.727v-.642a1.8 1.8 0 0 1 1.218-1.706l2.03-.58V9.25m0 0L9 12m0 0v3.75a2.25 2.25 0 0 1-1.632 2.163l-1.32.377a1.803 1.803 0 0 1-2.296-1.727v-.642A1.8 1.8 0 0 1 4.97 14.215l2.03-.58V3.75"/></svg>
           </div>
           <div class="md:w-1/2 md:pl-12"></div>
@@ -307,15 +404,19 @@
   <!-- ═══════════════════════════════════════════════════
        VENUE / MAP SECTION
   ════════════════════════════════════════════════════ -->
-  <section id="venue" class="py-24 px-6">
+  <section id="venue" class="py-24 px-6 relative overflow-hidden">
+    <!-- Leaf decoration -->
+    <div class="absolute top-20 right-0 opacity-[0.05] pointer-events-none">
+      <svg class="w-52 h-52 sway" viewBox="0 0 100 100" fill="#4a7c59"><path d="M90 10 C90 10 50 30 30 70 C55 45 80 30 90 10Z"/><path d="M85 20 C70 25 50 45 40 65" stroke="#4a7c59" stroke-width="0.6" fill="none"/></svg>
+    </div>
     <div class="max-w-5xl mx-auto">
       <div class="text-center mb-16 reveal">
-        <p class="text-rose tracking-[0.3em] uppercase text-xs mb-3">The Venue</p>
+        <p class="text-sage tracking-[0.3em] uppercase text-xs mb-3">The Venue</p>
         <h2 class="font-serif text-4xl sm:text-5xl text-gray-800">The Grand Rosewood Estate</h2>
         <div class="flex items-center justify-center my-6">
-          <span class="block w-16 h-px bg-rose/40"></span>
-          <span class="mx-4 text-rose text-lg">♥</span>
-          <span class="block w-16 h-px bg-rose/40"></span>
+          <span class="block w-12 h-px bg-sage/40"></span>
+          <svg class="mx-3 w-6 h-6 text-rose" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C12 2 14.5 5.5 14.5 8.5C14.5 9.8 13.9 11 12 11C10.1 11 9.5 9.8 9.5 8.5C9.5 5.5 12 2 12 2ZM4.5 9C4.5 9 8.5 9.5 10.5 11.5C11.5 12.5 11.5 13.8 10.2 14.8C8.8 15.8 7.5 15.2 6.8 14.2C5.2 12.2 4.5 9 4.5 9ZM19.5 9C19.5 9 18.8 12.2 17.2 14.2C16.5 15.2 15.2 15.8 13.8 14.8C12.5 13.8 12.5 12.5 13.5 11.5C15.5 9.5 19.5 9 19.5 9ZM7 18.5C7 18.5 9.5 15.5 12 14.5C14.5 15.5 17 18.5 17 18.5C17 18.5 15 20 12 20C9 20 7 18.5 7 18.5Z"/></svg>
+          <span class="block w-12 h-px bg-sage/40"></span>
         </div>
         <p class="text-gray-500 font-light max-w-xl mx-auto">
           1234 Vineyard Lane, Napa Valley, CA 94558<br />
@@ -340,7 +441,7 @@
         <!-- Venue Details -->
         <div class="space-y-6">
           <div class="flex items-start gap-4">
-            <div class="w-12 h-12 rounded-full bg-blush flex-shrink-0 flex items-center justify-center text-rose">
+            <div class="w-12 h-12 rounded-full bg-[#e8f5e9] flex-shrink-0 flex items-center justify-center text-leaf">
               <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/><path stroke-linecap="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z"/></svg>
             </div>
             <div>
@@ -349,7 +450,7 @@
             </div>
           </div>
           <div class="flex items-start gap-4">
-            <div class="w-12 h-12 rounded-full bg-blush flex-shrink-0 flex items-center justify-center text-rose">
+            <div class="w-12 h-12 rounded-full bg-[#e8f5e9] flex-shrink-0 flex items-center justify-center text-leaf">
               <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" d="M8.25 18.75a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 0 1-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 0 0-3.213-9.193 2.056 2.056 0 0 0-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 0 0-10.026 0 1.106 1.106 0 0 0-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12"/></svg>
             </div>
             <div>
@@ -358,7 +459,7 @@
             </div>
           </div>
           <div class="flex items-start gap-4">
-            <div class="w-12 h-12 rounded-full bg-blush flex-shrink-0 flex items-center justify-center text-rose">
+            <div class="w-12 h-12 rounded-full bg-[#e8f5e9] flex-shrink-0 flex items-center justify-center text-leaf">
               <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" d="M2.25 21h19.5m-18-18v18m10.5-18v18m6-13.5V21M6.75 6.75h.75m-.75 3h.75m-.75 3h.75m3-6h.75m-.75 3h.75m-.75 3h.75M6.75 21v-3.375c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21"/></svg>
             </div>
             <div>
@@ -367,7 +468,7 @@
             </div>
           </div>
           <div class="flex items-start gap-4">
-            <div class="w-12 h-12 rounded-full bg-blush flex-shrink-0 flex items-center justify-center text-rose">
+            <div class="w-12 h-12 rounded-full bg-[#e8f5e9] flex-shrink-0 flex items-center justify-center text-leaf">
               <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" d="M9.568 3H5.25A2.25 2.25 0 0 0 3 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 0 0 5.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 0 0 9.568 3Z"/><path stroke-linecap="round" d="M6 6h.008v.008H6V6Z"/></svg>
             </div>
             <div>
@@ -383,15 +484,22 @@
   <!-- ═══════════════════════════════════════════════════
        WEDDING GIFT / TRANSFER SECTION
   ════════════════════════════════════════════════════ -->
-  <section id="rsvp" class="py-24 px-6 bg-gradient-to-b from-blush/40 to-blush/10">
+  <section id="rsvp" class="py-24 px-6 bg-gradient-to-b from-[#e8f5e9]/30 via-[#fce4ec]/15 to-ivory relative overflow-hidden">
+    <!-- Floral accents -->
+    <div class="absolute top-0 left-0 opacity-[0.06] pointer-events-none">
+      <svg class="w-44 h-44" viewBox="0 0 100 100" fill="none"><path d="M10 90 C10 90 30 50 60 30 C40 50 20 60 10 90Z" fill="#4a7c59"/><circle cx="58" cy="32" r="6" fill="#f48fb1"/><circle cx="55" cy="28" r="4" fill="#f8bbd0"/></svg>
+    </div>
+    <div class="absolute bottom-0 right-0 opacity-[0.06] pointer-events-none">
+      <svg class="w-44 h-44" viewBox="0 0 100 100" fill="none"><path d="M90 10 C90 10 70 50 40 70 C60 50 80 40 90 10Z" fill="#4a7c59"/><circle cx="42" cy="68" r="6" fill="#f48fb1"/></svg>
+    </div>
     <div class="max-w-3xl mx-auto">
       <div class="text-center mb-12 reveal">
-        <p class="text-rose tracking-[0.3em] uppercase text-xs mb-3">Blessings &amp; Gifts</p>
+        <p class="text-sage tracking-[0.3em] uppercase text-xs mb-3">Blessings &amp; Gifts</p>
         <h2 class="font-serif text-4xl sm:text-5xl text-gray-800">Wedding Gift</h2>
         <div class="flex items-center justify-center my-6">
-          <span class="block w-16 h-px bg-rose/40"></span>
-          <span class="mx-4 text-rose text-lg">♥</span>
-          <span class="block w-16 h-px bg-rose/40"></span>
+          <span class="block w-12 h-px bg-sage/40"></span>
+          <svg class="mx-3 w-6 h-6 text-rose" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C12 2 14.5 5.5 14.5 8.5C14.5 9.8 13.9 11 12 11C10.1 11 9.5 9.8 9.5 8.5C9.5 5.5 12 2 12 2ZM4.5 9C4.5 9 8.5 9.5 10.5 11.5C11.5 12.5 11.5 13.8 10.2 14.8C8.8 15.8 7.5 15.2 6.8 14.2C5.2 12.2 4.5 9 4.5 9ZM19.5 9C19.5 9 18.8 12.2 17.2 14.2C16.5 15.2 15.2 15.8 13.8 14.8C12.5 13.8 12.5 12.5 13.5 11.5C15.5 9.5 19.5 9 19.5 9ZM7 18.5C7 18.5 9.5 15.5 12 14.5C14.5 15.5 17 18.5 17 18.5C17 18.5 15 20 12 20C9 20 7 18.5 7 18.5Z"/></svg>
+          <span class="block w-12 h-px bg-sage/40"></span>
         </div>
         <p class="text-gray-500 font-light max-w-xl mx-auto">
           Your presence at our wedding is the greatest gift of all. However, if you wish to honour us with a gift, a monetary contribution would be gratefully received.
@@ -401,8 +509,8 @@
       <div class="reveal grid md:grid-cols-2 gap-8">
 
         <!-- QR Code Card -->
-        <div class="bg-white rounded-3xl shadow-xl shadow-rose/5 border border-rose/10 p-8 sm:p-10 flex flex-col items-center text-center">
-          <div class="w-14 h-14 rounded-full bg-blush flex items-center justify-center text-rose mb-5">
+        <div class="bg-white rounded-3xl shadow-xl shadow-sage/5 border border-sage/10 p-8 sm:p-10 flex flex-col items-center text-center">
+          <div class="w-14 h-14 rounded-full bg-[#e8f5e9] flex items-center justify-center text-leaf mb-5">
             <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" d="M3.75 4.875c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5A1.125 1.125 0 0 1 3.75 9.375v-4.5ZM3.75 14.625c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5a1.125 1.125 0 0 1-1.125-1.125v-4.5ZM13.5 4.875c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5a1.125 1.125 0 0 1-1.125-1.125v-4.5Z"/><path stroke-linecap="round" d="M6.75 6.75h.008v.008H6.75V6.75ZM6.75 16.5h.008v.008H6.75V16.5ZM16.5 6.75h.008v.008H16.5V6.75ZM13.5 13.5h.008v.008H13.5V13.5ZM13.5 19.5h.008v.008H13.5V19.5ZM19.5 13.5h.008v.008H19.5V13.5ZM19.5 19.5h.008v.008H19.5V19.5ZM16.5 16.5h.008v.008H16.5V16.5Z"/></svg>
           </div>
           <h3 class="font-serif text-xl text-gray-800 mb-4">Scan QR Code</h3>
@@ -476,9 +584,9 @@
         </div>
 
         <!-- Bank Details Card -->
-        <div class="bg-white rounded-3xl shadow-xl shadow-rose/5 border border-rose/10 p-8 sm:p-10">
+        <div class="bg-white rounded-3xl shadow-xl shadow-sage/5 border border-sage/10 p-8 sm:p-10">
           <div class="flex items-center gap-3 mb-6">
-            <div class="w-14 h-14 rounded-full bg-blush flex-shrink-0 flex items-center justify-center text-rose">
+            <div class="w-14 h-14 rounded-full bg-[#e8f5e9] flex-shrink-0 flex items-center justify-center text-leaf">
               <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" d="M2.25 18.75a60.07 60.07 0 0 1 15.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 0 1 3 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 0 0-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 0 1-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 0 0 3 15h-.75M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm3 0h.008v.008H18V10.5Zm-12 0h.008v.008H6V10.5Z"/></svg>
             </div>
             <h3 class="font-serif text-xl text-gray-800">Bank Transfer Details</h3>
@@ -503,7 +611,7 @@
               <div class="flex items-center gap-3">
                 <p id="acctNumber" class="text-gray-800 font-medium font-mono tracking-wider">1234 5678 9012 3456</p>
                 <button onclick="copyToClipboard('1234567890123456', this)" title="Copy account number"
-                        class="text-rose hover:text-dusty transition flex-shrink-0">
+                        class="text-leaf hover:text-sage transition flex-shrink-0">
                   <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" d="M15.666 3.888A2.25 2.25 0 0 0 13.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 0 1-.75.75H9.75a.75.75 0 0 1-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 0 1-2.25 2.25H6.75A2.25 2.25 0 0 1 4.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 0 1 1.927-.184"/></svg>
                 </button>
               </div>
@@ -515,7 +623,7 @@
               <div class="flex items-center gap-3">
                 <p class="text-gray-800 font-medium font-mono tracking-wider">021000021</p>
                 <button onclick="copyToClipboard('021000021', this)" title="Copy routing number"
-                        class="text-rose hover:text-dusty transition flex-shrink-0">
+                        class="text-leaf hover:text-sage transition flex-shrink-0">
                   <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" d="M15.666 3.888A2.25 2.25 0 0 0 13.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 0 1-.75.75H9.75a.75.75 0 0 1-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 0 1-2.25 2.25H6.75A2.25 2.25 0 0 1 4.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 0 1 1.927-.184"/></svg>
                 </button>
               </div>
@@ -527,7 +635,7 @@
               <div class="flex items-center gap-3">
                 <p class="text-dusty font-semibold tracking-wide">LUTFIANIHANAN2026</p>
                 <button onclick="copyToClipboard('LUTFIANIHANAN2026', this)" title="Copy reference"
-                        class="text-rose hover:text-dusty transition flex-shrink-0">
+                        class="text-leaf hover:text-sage transition flex-shrink-0">
                   <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" d="M15.666 3.888A2.25 2.25 0 0 0 13.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 0 1-.75.75H9.75a.75.75 0 0 1-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 0 1-2.25 2.25H6.75A2.25 2.25 0 0 1 4.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 0 1 1.927-.184"/></svg>
                 </button>
               </div>
@@ -551,13 +659,25 @@
   <!-- ═══════════════════════════════════════════════════
        FOOTER
   ════════════════════════════════════════════════════ -->
-  <footer class="py-16 bg-gradient-to-br from-[#6b2d5b] via-[#8b3a62] to-[#c06c84] text-center text-white/80">
-    <div class="max-w-xl mx-auto px-6">
+  <footer class="py-16 bg-gradient-to-br from-[#1a3a2a] via-[#2d5a3f] to-[#4a7c59] text-center text-white/80 relative overflow-hidden">
+    <!-- Footer leaf decoration -->
+    <div class="absolute top-0 left-1/2 -translate-x-1/2 opacity-[0.08] pointer-events-none">
+      <svg class="w-96 h-24" viewBox="0 0 400 80" fill="none">
+        <path d="M200 80 C200 80 160 40 120 30 C150 35 180 50 200 80Z" fill="#a5d6a7"/>
+        <path d="M200 80 C200 80 240 40 280 30 C250 35 220 50 200 80Z" fill="#a5d6a7"/>
+        <path d="M200 80 C200 80 170 50 140 45 C162 48 185 60 200 80Z" fill="#c8e6c9"/>
+        <path d="M200 80 C200 80 230 50 260 45 C238 48 215 60 200 80Z" fill="#c8e6c9"/>
+        <circle cx="200" cy="75" r="4" fill="#f8bbd0" opacity="0.7"/>
+        <circle cx="155" cy="42" r="3" fill="#f8bbd0" opacity="0.5"/>
+        <circle cx="245" cy="42" r="3" fill="#f8bbd0" opacity="0.5"/>
+      </svg>
+    </div>
+    <div class="relative max-w-xl mx-auto px-6">
       <h2 class="font-serif text-3xl sm:text-4xl text-white mb-3">Lutfiani <span class="italic text-champagne">&amp;</span> Hanan</h2>
       <p class="text-sm font-light tracking-wider">July 18, 2026 &middot; Napa Valley, CA</p>
       <div class="flex items-center justify-center my-6">
         <span class="block w-12 h-px bg-white/20"></span>
-        <span class="mx-3 text-champagne text-sm">♥</span>
+        <svg class="mx-3 w-5 h-5 text-petal/60" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C12 2 14.5 5.5 14.5 8.5C14.5 9.8 13.9 11 12 11C10.1 11 9.5 9.8 9.5 8.5C9.5 5.5 12 2 12 2ZM4.5 9C4.5 9 8.5 9.5 10.5 11.5C11.5 12.5 11.5 13.8 10.2 14.8C8.8 15.8 7.5 15.2 6.8 14.2C5.2 12.2 4.5 9 4.5 9ZM19.5 9C19.5 9 18.8 12.2 17.2 14.2C16.5 15.2 15.2 15.8 13.8 14.8C12.5 13.8 12.5 12.5 13.5 11.5C15.5 9.5 19.5 9 19.5 9ZM7 18.5C7 18.5 9.5 15.5 12 14.5C14.5 15.5 17 18.5 17 18.5C17 18.5 15 20 12 20C9 20 7 18.5 7 18.5Z"/></svg>
         <span class="block w-12 h-px bg-white/20"></span>
       </div>
       <p class="text-xs text-white/50 font-light">#LutfianiAndHanan2026</p>
@@ -607,9 +727,9 @@
       const nav = document.getElementById('navbar');
       window.addEventListener('scroll', () => {
         if (window.scrollY > 80) {
-          nav.classList.add('bg-[#6b2d5b]/90', 'backdrop-blur-lg', 'shadow-lg');
+          nav.classList.add('bg-[#1a3a2a]/90', 'backdrop-blur-lg', 'shadow-lg');
         } else {
-          nav.classList.remove('bg-[#6b2d5b]/90', 'backdrop-blur-lg', 'shadow-lg');
+          nav.classList.remove('bg-[#1a3a2a]/90', 'backdrop-blur-lg', 'shadow-lg');
         }
       });
     })();
@@ -638,18 +758,19 @@
       reveals.forEach(el => observer.observe(el));
     })();
 
-    // ── Floating particles ───────────────────────────
+    // ── Falling flower petals ────────────────────────
     (function () {
       const container = document.getElementById('particles');
-      for (let i = 0; i < 20; i++) {
+      const petalColors = ['#f8bbd0', '#f48fb1', '#fce4ec', '#e1bee7', '#c8e6c9', '#ffffff'];
+      for (let i = 0; i < 15; i++) {
         const p = document.createElement('div');
-        p.className = 'particle';
-        const size = Math.random() * 6 + 2;
-        p.style.width = size + 'px';
-        p.style.height = size + 'px';
+        p.className = 'petal';
+        const size = Math.random() * 14 + 8;
+        const color = petalColors[Math.floor(Math.random() * petalColors.length)];
+        p.innerHTML = `<svg width="${size}" height="${size}" viewBox="0 0 20 20" fill="${color}" opacity="${Math.random()*0.4+0.3}"><ellipse cx="10" cy="8" rx="5" ry="8" transform="rotate(${Math.random()*60-30} 10 10)"/></svg>`;
         p.style.left = Math.random() * 100 + '%';
-        p.style.animationDuration = Math.random() * 10 + 8 + 's';
-        p.style.animationDelay = Math.random() * 10 + 's';
+        p.style.animationDuration = Math.random() * 12 + 10 + 's';
+        p.style.animationDelay = Math.random() * 15 + 's';
         container.appendChild(p);
       }
     })();
