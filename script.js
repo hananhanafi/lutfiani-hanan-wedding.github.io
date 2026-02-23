@@ -321,6 +321,13 @@ function copyToClipboard(text, btn) {
 
   updateCount();
 
+  // TODO: Replace with your actual EmailJS Service ID and Template ID
+  const EMAILJS_SERVICE_ID = 'YOUR_SERVICE_ID';
+  const EMAILJS_TEMPLATE_ID = 'YOUR_TEMPLATE_ID';
+
+  const submitBtn = form.querySelector('button[type="submit"]');
+  const submitBtnHTML = submitBtn.innerHTML;
+
   form.addEventListener('submit', function (e) {
     e.preventDefault();
 
@@ -330,26 +337,43 @@ function copyToClipboard(text, btn) {
 
     if (!name || !letter) return;
 
-    // Save to localStorage
-    const capsules = getCapsules();
-    capsules.push({
-      id: Date.now(),
-      name: name,
-      letter: letter,
-      deliveryDate: deliveryDate,
-      deliveryLabel: dateLabels[deliveryDate],
-      createdAt: new Date().toISOString()
+    // Disable button & show loading state
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<svg class="w-5 h-5 animate-spin" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" d="M12 3v3m0 12v3m-7.794-4.206 2.121-2.121m9.346-9.346 2.121-2.121M3 12h3m12 0h3M6.206 6.206l2.121 2.121m9.346 9.346 2.121 2.121"/></svg> Sending...';
+
+    // Send via EmailJS
+    emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+      from_name: name,
+      delivery_date: dateLabels[deliveryDate],
+      message: letter
+    }).then(function () {
+      // Save to localStorage as backup
+      const capsules = getCapsules();
+      capsules.push({
+        id: Date.now(),
+        name: name,
+        letter: letter,
+        deliveryDate: deliveryDate,
+        deliveryLabel: dateLabels[deliveryDate],
+        createdAt: new Date().toISOString()
+      });
+      localStorage.setItem('timeCapsules', JSON.stringify(capsules));
+
+      // Show success
+      form.classList.add('hidden');
+      successDiv.classList.remove('hidden');
+      successMsg.textContent = `Thank you, ${name}! Your letter will be opened on ${dateLabels[deliveryDate]}.`;
+      updateCount();
+
+      // Mini confetti burst for celebration
+      if (typeof burstConfetti === 'function') burstConfetti();
+    }).catch(function (err) {
+      console.error('EmailJS error:', err);
+      alert('Oops! Something went wrong sending your letter. Please try again.');
+    }).finally(function () {
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = submitBtnHTML;
     });
-    localStorage.setItem('timeCapsules', JSON.stringify(capsules));
-
-    // Show success
-    form.classList.add('hidden');
-    successDiv.classList.remove('hidden');
-    successMsg.textContent = `Thank you, ${name}! Your letter will be opened on ${dateLabels[deliveryDate]}.`;
-    updateCount();
-
-    // Mini confetti burst for celebration
-    if (typeof burstConfetti === 'function') burstConfetti();
   });
 
   // "Write another letter" button
