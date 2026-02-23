@@ -305,13 +305,11 @@
     .sway { animation: gentle-sway 4s ease-in-out infinite; }
     .sway-reverse { animation: gentle-sway 5s ease-in-out infinite reverse; }
 
-    /* Gallery masonry */
+    /* Gallery grid */
     .gallery-grid {
-      columns: 2;
-      column-gap: 1rem;
-    }
-    @media (min-width: 768px) {
-      .gallery-grid { columns: 3; }
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
     }
     .gallery-item {
       break-inside: avoid;
@@ -475,16 +473,16 @@
        HERO SECTION
   ════════════════════════════════════════════════════ -->
   <section id="hero" class="relative min-h-screen flex items-center justify-center overflow-hidden">
-    <!-- Background image -->
-    <div class="absolute inset-0 hero-parallax-bg" data-parallax="0.3">
+    <!-- Background image (fixed) -->
+    <div class="fixed inset-0 -z-10">
       <img src="images/image1.jpeg"
            alt="Wedding background" class="w-full h-full object-cover object-center" />
     </div>
     <!-- Dark overlay for text readability -->
-    <div class="absolute inset-0 bg-gradient-to-b from-black/50 via-black/40 to-black/60"></div>
+    <div class="fixed inset-0 bg-gradient-to-b from-black/65 via-black/55 to-black/70 -z-10"></div>
 
     <!-- Floral corner decorations -->
-    <div class="absolute top-0 left-0 w-48 h-48 sm:w-72 sm:h-72 pointer-events-none opacity-25" data-parallax="-0.08">
+    <div class="absolute top-0 left-0 w-48 h-48 sm:w-72 sm:h-72 pointer-events-none opacity-25" data-parallax="-0.2">
       <svg viewBox="0 0 240 240" fill="none" xmlns="http://www.w3.org/2000/svg" class="sway">
         <!-- Rose cluster -->
         <path d="M30 220 C30 220 50 150 100 100 C70 130 40 120 30 220Z" fill="#f8bbd0" opacity="0.5"/>
@@ -510,7 +508,7 @@
         <ellipse cx="45" cy="85" rx="6" ry="3" transform="rotate(20 45 85)" fill="#f8bbd0" opacity="0.3"/>
       </svg>
     </div>
-    <div class="absolute top-0 right-0 w-48 h-48 sm:w-72 sm:h-72 pointer-events-none opacity-25 -scale-x-100" data-parallax="-0.12">
+    <div class="absolute top-0 right-0 w-48 h-48 sm:w-72 sm:h-72 pointer-events-none opacity-25 -scale-x-100" data-parallax="-0.25">
       <svg viewBox="0 0 240 240" fill="none" xmlns="http://www.w3.org/2000/svg" class="sway-reverse">
         <path d="M30 220 C30 220 50 150 100 100 C70 130 40 120 30 220Z" fill="#f8bbd0" opacity="0.5"/>
         <path d="M30 220 C30 220 70 160 140 130 C100 150 50 165 30 220Z" fill="#e1bee7" opacity="0.4"/>
@@ -525,7 +523,7 @@
         <circle cx="50" cy="100" r="3" fill="#fff" opacity="0.4"/>
       </svg>
     </div>
-    <div class="absolute bottom-0 left-0 w-44 h-44 sm:w-64 sm:h-64 pointer-events-none opacity-20 rotate-180" data-parallax="-0.15">
+    <div class="absolute bottom-0 left-0 w-44 h-44 sm:w-64 sm:h-64 pointer-events-none opacity-20 rotate-180" data-parallax="-0.3">
       <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" class="sway">
         <path d="M10 190 C10 190 40 130 90 90 C60 120 25 110 10 190Z" fill="#f8bbd0" opacity="0.5"/>
         <path d="M10 190 C10 190 50 150 100 140 C70 150 30 160 10 190Z" fill="#e1bee7" opacity="0.4"/>
@@ -535,7 +533,7 @@
         <path d="M65 80 C65 70 75 70 75 80 C75 70 85 70 85 80 C85 90 75 96 75 96 C75 96 65 90 65 80Z" fill="#f8bbd0" opacity="0.4"/>
       </svg>
     </div>
-    <div class="absolute bottom-0 right-0 w-44 h-44 sm:w-64 sm:h-64 pointer-events-none opacity-20 -scale-x-100 rotate-180" data-parallax="-0.10">
+    <div class="absolute bottom-0 right-0 w-44 h-44 sm:w-64 sm:h-64 pointer-events-none opacity-20 -scale-x-100 rotate-180" data-parallax="-0.22">
       <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" class="sway-reverse">
         <path d="M10 190 C10 190 40 130 90 90 C60 120 25 110 10 190Z" fill="#e1bee7" opacity="0.5"/>
         <path d="M10 190 C10 190 50 150 100 140 C70 150 30 160 10 190Z" fill="#f8bbd0" opacity="0.4"/>
@@ -548,12 +546,12 @@
     <!-- Falling petals container -->
     <div id="particles" class="absolute inset-0 pointer-events-none overflow-hidden"></div>
 
-    <div class="relative z-10 text-center px-6 max-w-3xl" data-parallax="0.15">
+    <div class="relative z-10 text-center  sm:mx-auto max-w-3xl" data-parallax="0.35">
       <!-- Small intro -->
-      <p class="hero-intro text-champagne/80 tracking-[0.35em] uppercase text-sm mb-4 font-light">Together with their families</p>
+      <!-- <p class="hero-intro text-champagne tracking-[0.35em] uppercase text-sm mb-4 font-light" style="text-shadow: 0 2px 8px rgba(0,0,0,0.5)">Together with their families</p> -->
 
       <!-- Names -->
-      <h1 class="hero-name font-serif text-6xl sm:text-7xl md:text-8xl text-white leading-tight">
+      <h1 class="hero-name font-serif text-6xl sm:text-7xl md:text-8xl text-white leading-tight" style="text-shadow: 0 3px 12px rgba(0,0,0,0.6)">
         Lutfiani <span class="font-light italic text-champagne">&amp;</span> Hanan
       </h1>
 
@@ -563,27 +561,27 @@
       </div>
 
       <!-- Date -->
-      <p class="hero-date text-white/90 text-lg sm:text-xl font-light tracking-wide">
+      <p class="hero-date text-white text-lg sm:text-xl font-light tracking-wide" style="text-shadow: 0 2px 8px rgba(0,0,0,0.5)">
         Saturday, July 18, 2026 &middot; 3:00 PM
       </p>
-      <p class="hero-venue text-champagne/70 text-sm mt-1 tracking-wider">IS Plaza &middot; East Jakarta</p>
+      <p class="hero-venue text-champagne text-sm mt-1 tracking-wider" style="text-shadow: 0 2px 8px rgba(0,0,0,0.5)">IS Plaza &middot; East Jakarta</p>
 
       <!-- Countdown Timer -->
-      <div class="mt-10 flex justify-center gap-4 sm:gap-6">
-        <div class="hero-countdown countdown-card rounded-2xl px-5 py-4 min-w-[80px] text-center">
-          <span id="cd-days" class="block font-serif text-3xl sm:text-4xl text-white">---</span>
+      <div class="mt-10 mx-4 sm:mx-0 flex flex-wrap justify-center gap-3 sm:gap-6">
+        <div class="hero-countdown countdown-card rounded-2xl px-4 sm:px-5 py-3 sm:py-4 min-w-[70px] sm:min-w-[80px] text-center">
+          <span id="cd-days" class="block font-serif text-2xl sm:text-4xl text-white">---</span>
           <span class="text-[10px] uppercase tracking-[0.2em] text-champagne/70 mt-1 block">Days</span>
         </div>
-        <div class="hero-countdown countdown-card rounded-2xl px-5 py-4 min-w-[80px] text-center">
-          <span id="cd-hours" class="block font-serif text-3xl sm:text-4xl text-white">--</span>
+        <div class="hero-countdown countdown-card rounded-2xl px-4 sm:px-5 py-3 sm:py-4 min-w-[70px] sm:min-w-[80px] text-center">
+          <span id="cd-hours" class="block font-serif text-2xl sm:text-4xl text-white">--</span>
           <span class="text-[10px] uppercase tracking-[0.2em] text-champagne/70 mt-1 block">Hours</span>
         </div>
-        <div class="hero-countdown countdown-card rounded-2xl px-5 py-4 min-w-[80px] text-center">
-          <span id="cd-mins" class="block font-serif text-3xl sm:text-4xl text-white">--</span>
+        <div class="hero-countdown countdown-card rounded-2xl px-4 sm:px-5 py-3 sm:py-4 min-w-[70px] sm:min-w-[80px] text-center">
+          <span id="cd-mins" class="block font-serif text-2xl sm:text-4xl text-white">--</span>
           <span class="text-[10px] uppercase tracking-[0.2em] text-champagne/70 mt-1 block">Minutes</span>
         </div>
-        <div class="hero-countdown countdown-card rounded-2xl px-5 py-4 min-w-[80px] text-center">
-          <span id="cd-secs" class="block font-serif text-3xl sm:text-4xl text-white">--</span>
+        <div class="hero-countdown countdown-card rounded-2xl px-4 sm:px-5 py-3 sm:py-4 min-w-[70px] sm:min-w-[80px] text-center">
+          <span id="cd-secs" class="block font-serif text-2xl sm:text-4xl text-white">--</span>
           <span class="text-[10px] uppercase tracking-[0.2em] text-champagne/70 mt-1 block">Seconds</span>
         </div>
       </div>
@@ -599,7 +597,7 @@
   <!-- ═══════════════════════════════════════════════════
        OUR STORY SECTION
   ════════════════════════════════════════════════════ -->
-  <section id="story" class="py-24 px-6 relative overflow-hidden">
+  <section id="story" class="py-24 px-6 relative overflow-hidden bg-ivory">
     <!-- Floral bouquet top-right -->
     <div class="absolute top-6 right-0 opacity-[0.10] pointer-events-none" data-parallax="-0.06">
       <svg class="w-64 h-64 sway" viewBox="0 0 120 120" fill="none">
@@ -702,9 +700,11 @@
         <!-- Event 1 -->
         <div class="reveal-left relative flex flex-col md:flex-row items-start md:items-center mb-14">
           <div class="md:w-1/2 md:text-right md:pr-12 pl-12 md:pl-0">
-            <span class="text-dusty font-serif text-xl">4:00 PM</span>
-            <h3 class="font-serif text-2xl text-gray-800 mt-1">Marriage Ceremony</h3>
-            <p class="text-gray-500 font-light mt-2">The sacred exchange of vows before God, family, and witnesses — the moment two hearts officially become one.</p>
+            <div class="bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg shadow-dusty/10 border border-rose/10 p-6">
+              <span class="text-dusty font-serif text-xl">4:00 PM</span>
+              <h3 class="font-serif text-2xl text-gray-800 mt-1">Marriage Ceremony</h3>
+              <p class="text-gray-500 font-light mt-2">The sacred exchange of vows before God, family, and witnesses — the moment two hearts officially become one.</p>
+            </div>
           </div>
           <div class="absolute left-0 md:left-1/2 md:-translate-x-1/2 w-10 h-10 rounded-full bg-dusty timeline-dot-animate flex items-center justify-center text-white text-sm shadow-lg shadow-dusty/25 z-10">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"/></svg>
@@ -719,18 +719,22 @@
             <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0"/></svg>
           </div>
           <div class="md:w-1/2 md:pl-12 pl-12">
-            <span class="text-rose font-serif text-xl">7:00 PM</span>
-            <h3 class="font-serif text-2xl text-gray-800 mt-1">Wedding Reception</h3>
-            <p class="text-gray-500 font-light mt-2">Welcoming our beloved guests with warm greetings, joyful conversations, and a festive dinner celebration.</p>
+            <div class="bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg shadow-rose/10 border border-rose/10 p-6">
+              <span class="text-rose font-serif text-xl">7:00 PM</span>
+              <h3 class="font-serif text-2xl text-gray-800 mt-1">Wedding Reception</h3>
+              <p class="text-gray-500 font-light mt-2">Welcoming our beloved guests with warm greetings, joyful conversations, and a festive dinner celebration.</p>
+            </div>
           </div>
         </div>
 
         <!-- Event 3 -->
         <div class="reveal-left relative flex flex-col md:flex-row items-start md:items-center mb-14">
           <div class="md:w-1/2 md:text-right md:pr-12 pl-12 md:pl-0">
-            <span class="text-blossom font-serif text-xl">8:00 PM</span>
-            <h3 class="font-serif text-2xl text-gray-800 mt-1">Photo Session &amp; Entertainment</h3>
-            <p class="text-gray-500 font-light mt-2">Capture memories with family and friends, accompanied by live music and entertainment to liven the celebration.</p>
+            <div class="bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg shadow-blossom/10 border border-rose/10 p-6">
+              <span class="text-blossom font-serif text-xl">8:00 PM</span>
+              <h3 class="font-serif text-2xl text-gray-800 mt-1">Photo Session &amp; Entertainment</h3>
+              <p class="text-gray-500 font-light mt-2">Capture memories with family and friends, accompanied by live music and entertainment to liven the celebration.</p>
+            </div>
           </div>
           <div class="absolute left-0 md:left-1/2 md:-translate-x-1/2 w-10 h-10 rounded-full bg-blossom timeline-dot-animate flex items-center justify-center text-white text-sm shadow-lg shadow-blossom/25 z-10">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" d="M6.827 6.175A2.31 2.31 0 0 1 5.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 0 0-1.134-.175 2.31 2.31 0 0 1-1.64-1.055l-.822-1.316a2.192 2.192 0 0 0-1.736-1.039 48.774 48.774 0 0 0-5.232 0 2.192 2.192 0 0 0-1.736 1.039l-.821 1.316Z"/><path stroke-linecap="round" d="M16.5 12.75a4.5 4.5 0 1 1-9 0 4.5 4.5 0 0 1 9 0Z"/></svg>
@@ -745,9 +749,11 @@
             <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" d="M12 8.25v-1.5m0 1.5c-1.355 0-2.697.056-4.024.166C6.845 8.51 6 9.473 6 10.608v2.513m6-4.871c1.355 0 2.697.056 4.024.166C17.155 8.51 18 9.473 18 10.608v2.513M15 8.25v-1.5m-6 1.5v-1.5m12 9.75-1.5.75a3.354 3.354 0 0 1-3 0 3.354 3.354 0 0 0-3 0 3.354 3.354 0 0 1-3 0 3.354 3.354 0 0 0-3 0 3.354 3.354 0 0 1-3 0L3 16.5m18-4.5-1.5.75a3.354 3.354 0 0 1-3 0 3.354 3.354 0 0 0-3 0 3.354 3.354 0 0 1-3 0 3.354 3.354 0 0 0-3 0 3.354 3.354 0 0 1-3 0L3 12"/></svg>
           </div>
           <div class="md:w-1/2 md:pl-12 pl-12">
-            <span class="text-lavender font-serif text-xl">9:00 PM</span>
-            <h3 class="font-serif text-2xl text-gray-800 mt-1">Closing</h3>
-            <p class="text-gray-500 font-light mt-2">Words of gratitude and a closing prayer to end this joyous celebration filled with love and blessings.</p>
+            <div class="bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg shadow-lavender/10 border border-rose/10 p-6">
+              <span class="text-lavender font-serif text-xl">9:00 PM</span>
+              <h3 class="font-serif text-2xl text-gray-800 mt-1">Closing</h3>
+              <p class="text-gray-500 font-light mt-2">Words of gratitude and a closing prayer to end this joyous celebration filled with love and blessings.</p>
+            </div>
           </div>
         </div>
       </div>
@@ -757,7 +763,7 @@
   <!-- ═══════════════════════════════════════════════════
        VENUE / MAP SECTION
   ════════════════════════════════════════════════════ -->
-  <section id="venue" class="py-24 px-6 relative overflow-hidden">
+  <section id="venue" class="py-24 px-6 relative overflow-hidden bg-ivory">
     <!-- Flower decoration -->
     <div class="absolute top-10 right-0 opacity-[0.10] pointer-events-none" data-parallax="-0.06">
       <svg class="w-56 h-56 sway" viewBox="0 0 100 100" fill="none">
@@ -901,43 +907,36 @@
 
       <!-- Masonry Gallery Grid -->
       <div class="gallery-grid">
-        <!-- Photo 1 -->
-        <div class="gallery-item reveal-left" data-gallery="0">
-          <img src="images/image1.jpeg" alt="Our moment together" loading="lazy" />
-          <div class="gallery-overlay">
-            <span class="text-white text-sm font-light">Our moment together</span>
-          </div>
-        </div>
         <!-- Photo 2 -->
-        <div class="gallery-item reveal-right" data-gallery="1">
+        <div class="gallery-item reveal-right" data-gallery="0">
           <img src="images/image2.jpeg" alt="Laughing together" loading="lazy" />
           <div class="gallery-overlay">
             <span class="text-white text-sm font-light">Laughing together</span>
           </div>
         </div>
         <!-- Photo 3 -->
-        <div class="gallery-item reveal-left" data-gallery="2">
+        <div class="gallery-item reveal-left" data-gallery="1">
           <img src="images/image3.jpeg" alt="Sunset walk" loading="lazy" />
           <div class="gallery-overlay">
             <span class="text-white text-sm font-light">Sunset walk</span>
           </div>
         </div>
         <!-- Photo 4 -->
-        <div class="gallery-item reveal-scale" data-gallery="3">
+        <div class="gallery-item reveal-scale" data-gallery="2">
           <img src="images/image4.jpeg" alt="The proposal" loading="lazy" />
           <div class="gallery-overlay">
             <span class="text-white text-sm font-light">The proposal</span>
           </div>
         </div>
         <!-- Photo 5 -->
-        <div class="gallery-item reveal-right" data-gallery="4">
+        <div class="gallery-item reveal-right" data-gallery="3">
           <img src="images/image5.jpeg" alt="Engagement party" loading="lazy" />
           <div class="gallery-overlay">
             <span class="text-white text-sm font-light">Engagement party</span>
           </div>
         </div>
         <!-- Photo 6 -->
-        <div class="gallery-item reveal-left" data-gallery="5">
+        <div class="gallery-item reveal-left" data-gallery="4">
           <img src="images/image6.jpeg" alt="Pre-wedding shoot" loading="lazy" />
           <div class="gallery-overlay">
             <span class="text-white text-sm font-light">Pre-wedding shoot</span>
@@ -962,7 +961,7 @@
   <!-- ═══════════════════════════════════════════════════
        WEDDING GIFT / TRANSFER SECTION
   ════════════════════════════════════════════════════ -->
-  <section id="rsvp" class="py-24 px-6 bg-gradient-to-b from-[#fce4ec]/25 via-[#e1bee7]/10 to-ivory relative overflow-hidden">
+  <section id="rsvp" class="py-24 px-6 bg-ivory bg-gradient-to-b from-[#fce4ec] via-[#f3e5f5] to-ivory relative overflow-hidden">
     <!-- Floral accents -->
     <div class="absolute top-0 left-0 opacity-[0.10] pointer-events-none" data-parallax="-0.05">
       <svg class="w-52 h-52" viewBox="0 0 100 100" fill="none">
